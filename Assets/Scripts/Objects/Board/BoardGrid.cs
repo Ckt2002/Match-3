@@ -35,4 +35,9 @@ public class BoardGrid
             .GetComponent<PotionController>()
             .SetPotionIndex(new Vector2Int(widthInd, heightInd));
     }
+
+    public void PrintValue(int w, int h)
+    {
+        Debug.Log($"{potionGrid[w, h]}: [{w}, {h}]");
+    }
 }

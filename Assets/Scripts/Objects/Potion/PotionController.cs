@@ -11,7 +11,7 @@ public class PotionController : MonoBehaviour
     [SerializeField] private Vector3 mouseEnterScale = Vector3.one;
     [SerializeField] private float scaleDuration = 0.3f;
 
-    private bool isSelected, isDragging = false;
+    private bool isSelected, isHiding, isDragging = false;
     private PotionStateMachine stateMachine;
 
     private void Start()
@@ -22,17 +22,19 @@ public class PotionController : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        stateMachine.ChangeState(new PotionMouseEnterState(this, scaleDuration, mouseEnterScale));
+        if (!isHiding)
+            stateMachine.ChangeState(new PotionMouseEnterState(this, scaleDuration, mouseEnterScale));
     }
 
     private void OnMouseExit()
     {
-        stateMachine.ChangeState(new PotionMouseExitState(this, scaleDuration, originalScale));
+        if (!isHiding)
+            stateMachine.ChangeState(new PotionMouseExitState(this, scaleDuration, originalScale));
     }
 
     private void OnMouseDown()
     {
-        if (!isSelected)
+        if (!isSelected && !isHiding)
         {
             isSelected = true;
             originalMousePos = Input.mousePosition;
@@ -42,7 +44,7 @@ public class PotionController : MonoBehaviour
 
     private void OnMouseDrag()
     {
-        if (!isDragging)
+        if (!isDragging && !isHiding)
         {
             stateMachine.ChangeState(new PotionDragState(this));
             isDragging = true;
@@ -54,6 +56,20 @@ public class PotionController : MonoBehaviour
         stateMachine.ChangeState(new PotionReleaseState(this));
         isSelected = false;
         isDragging = false;
+    }
+
+    public void Hide()
+    {
+        stateMachine.ChangeState(new PotionHideState(this, Reset));
+        isHiding = true;
+    }
+
+    private void Reset()
+    {
+        isSelected = false;
+        isDragging = false;
+        isHiding = false;
+        transform.localScale = Vector3.one;
     }
 
     public void Move(Vector3 targetPos)

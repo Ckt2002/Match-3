@@ -72,7 +72,11 @@ public class BoardSwapPotion
     {
         if (selectedPotion != null && nextToPotion != null)
             Swap(nextToPotion.potionIndex, selectedPotion.potionIndex);
+        Reset();
+    }
 
+    public void Reset()
+    {
         selectedPotion = null;
         nextToPotion = null;
     }

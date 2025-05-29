@@ -36,4 +36,9 @@ public class BoardDragPotion
 
         swapAction.Invoke(strategy.GetTargetIndex(nextToPotionIndex), selectedPotionIndex);
     }
+
+    public void Reset()
+    {
+        selectedPotion = null;
+    }
 }

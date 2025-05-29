@@ -7,6 +7,7 @@ public class BoardController : MonoBehaviour
     public BoardSwapPotion boardSwapPotion { get; private set; }
     public BoardDragPotion boardDragPotion { get; private set; }
     public BoardReleasePotion boardReleasePotion { get; private set; }
+    public BoardRefill boardRefill { get; private set; }
 
     private void Awake()
     {
@@ -22,6 +23,7 @@ public class BoardController : MonoBehaviour
         boardSwapPotion = new BoardSwapPotion(boardGrid);
         boardDragPotion = new BoardDragPotion(boardSwapPotion.Swap);
         boardReleasePotion = new BoardReleasePotion(boardSwapPotion.Undo);
+        boardRefill = new BoardRefill(boardGrid);
     }
 
     public void SetSelectedPotion(PotionController potion)
@@ -40,8 +42,13 @@ public class BoardController : MonoBehaviour
         if (boardSwapPotion.selectedPotion == null)
             return;
 
-        boardReleasePotion.Setup(boardGrid,
-            boardSwapPotion.selectedPotion, boardSwapPotion.nextToPotion);
+        boardReleasePotion.Setup(boardGrid
+            , boardSwapPotion.selectedPotion
+            , boardSwapPotion.nextToPotion
+            , boardRefill);
+
         boardReleasePotion.Release();
+        boardSwapPotion.Reset();
+        boardDragPotion.Reset();
     }
 }

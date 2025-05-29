@@ -5,63 +5,74 @@ public class BoardCheckMatch
 {
     GameObject[,] potionGrid;
     int width, height;
-    PotionController selectedPotion, swappedPotion;
-    BoardFindMatch findMatch;
 
     public BoardCheckMatch()
     {
     }
 
-    public void Setup(BoardGrid boardGrid
-        , PotionController selectedPotion, PotionController swappedPotion)
+    public void Setup(BoardGrid boardGrid)
     {
         potionGrid = boardGrid.potionGrid;
         width = boardGrid.gridWidth;
         height = boardGrid.gridHeight;
-        this.selectedPotion = selectedPotion;
-        this.swappedPotion = swappedPotion;
-
-        findMatch = new BoardFindMatch(potionGrid, width, height);
     }
 
-    public void Match()
+    public List<PotionController> FindHorizontalMatches(int w, int h)
     {
         List<PotionController> matches = new List<PotionController>();
-        matches.AddRange(findMatch.FindHorizontalMatches(
-            (int)selectedPotion.potionIndex.x, (int)selectedPotion.potionIndex.y));
-        matches.AddRange(findMatch.FindVerticalMatches(
-            (int)selectedPotion.potionIndex.x, (int)selectedPotion.potionIndex.y));
+        matches.Add(potionGrid[w, h].GetComponent<PotionController>());
 
-        if (selectedPotion.potionType == swappedPotion.potionType)
+        // Left
+        for (int i = w - 1; i >= 0; i--)
         {
-            matches.AddRange(findMatch.FindHorizontalMatches(
-                (int)swappedPotion.potionIndex.x, (int)swappedPotion.potionIndex.y));
-            matches.AddRange(findMatch.FindVerticalMatches(
-                (int)swappedPotion.potionIndex.x, (int)swappedPotion.potionIndex.y));
+            if (potionGrid[i, h].GetComponent<PotionController>().potionType ==
+                potionGrid[w, h].GetComponent<PotionController>().potionType)
+                matches.Add(potionGrid[i, h].GetComponent<PotionController>());
+            else
+                break;
         }
-        else
+
+        // Right
+        for (int i = w + 1; i < width; i++)
         {
-            MatchAction(matches);
-            matches.Clear();
-            matches.AddRange(findMatch.FindHorizontalMatches(
-                (int)swappedPotion.potionIndex.x, (int)swappedPotion.potionIndex.y));
-            matches.AddRange(findMatch.FindVerticalMatches(
-                (int)swappedPotion.potionIndex.x, (int)swappedPotion.potionIndex.y));
+            if (potionGrid[i, h].GetComponent<PotionController>().potionType ==
+                potionGrid[w, h].GetComponent<PotionController>().potionType)
+                matches.Add(potionGrid[i, h].GetComponent<PotionController>());
+            else
+                break;
         }
-        MatchAction(matches);
-        matches.Clear();
-        matches = null;
+
+        return matches.Count >= 3 ? matches : new List<PotionController>();
     }
 
-    private void MatchAction(List<PotionController> matches)
+    public List<PotionController> FindVerticalMatches(int w, int h)
     {
-        if (matches.Count >= 3)
+        List<PotionController> matches = new List<PotionController>();
+        matches.Add(potionGrid[w, h].GetComponent<PotionController>());
+
+        // Down
+        for (int i = h - 1; i >= 0; i--)
         {
-            Debug.Log("Match");
+            if (potionGrid[w, i].GetComponent<PotionController>().potionType ==
+                potionGrid[w, h].GetComponent<PotionController>().potionType)
+                matches.Add(potionGrid[w, i].GetComponent<PotionController>());
+            else
+                break;
         }
-        else
+
+        // Up
+        for (int i = h + 1; i < height; i++)
         {
-            Debug.Log("Not match");
+            if (potionGrid[w, i] == null)
+                Debug.Log($"Catch null {i}");
+
+            if (potionGrid[w, i].GetComponent<PotionController>().potionType ==
+                potionGrid[w, h].GetComponent<PotionController>().potionType)
+                matches.Add(potionGrid[w, i].GetComponent<PotionController>());
+            else
+                break;
         }
+
+        return matches.Count >= 3 ? matches : new List<PotionController>();
     }
 }
