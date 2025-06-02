@@ -1,78 +1,100 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BoardCheckMatch
 {
-    GameObject[,] potionGrid;
-    int width, height;
+    BoardGrid boardGrid;
+    BoardSwap swapPotion;
+    BoardRefill boardRefill;
+    BoardFindMatches boardFindMatches;
+    MonoBehaviour coroutineLauncher;
 
-    public BoardCheckMatch()
+    public BoardCheckMatch(BoardGrid boardGrid, BoardSwap swapPotion,
+        BoardRefill boardRefill, MonoBehaviour coroutineLauncher)
     {
+        this.boardGrid = boardGrid;
+        this.swapPotion = swapPotion;
+        this.boardRefill = boardRefill;
+        this.coroutineLauncher = coroutineLauncher;
+        boardFindMatches = new BoardFindMatches(boardGrid);
     }
 
-    public void Setup(BoardGrid boardGrid)
+    public IEnumerator CheckAllMatches()
     {
-        potionGrid = boardGrid.potionGrid;
-        width = boardGrid.gridWidth;
-        height = boardGrid.gridHeight;
+        TileController[,] tiles = boardGrid.tiles;
+        int height = boardGrid.height;
+        int width = boardGrid.width;
+        HashSet<TileController> uniqueMatches = new HashSet<TileController>();
+
+        do
+        {
+            uniqueMatches.Clear();
+            for (int w = 0; w < width; w++)
+                for (int h = 0; h < height; h++)
+                    yield return coroutineLauncher.StartCoroutine(
+                        GetMatchesFound(new Vector2Int(w, h), uniqueMatches)
+                        );
+
+            yield return MatchAction(uniqueMatches);
+        }
+        while (uniqueMatches.Count > 0);
+
+        yield return null;
     }
 
-    public List<PotionController> FindHorizontalMatches(int w, int h)
+    public IEnumerator CheckMatch()
     {
-        List<PotionController> matches = new List<PotionController>();
-        matches.Add(potionGrid[w, h].GetComponent<PotionController>());
+        if (swapPotion.selectedTile == null || swapPotion.swappedTile == null)
+            yield break;
 
-        // Left
-        for (int i = w - 1; i >= 0; i--)
-        {
-            if (potionGrid[i, h].GetComponent<PotionController>().potionType ==
-                potionGrid[w, h].GetComponent<PotionController>().potionType)
-                matches.Add(potionGrid[i, h].GetComponent<PotionController>());
-            else
-                break;
-        }
+        Vector2Int selectedTileInd = swapPotion.selectedTile.tileIndex;
+        Vector2Int swappedTileInd = swapPotion.swappedTile.tileIndex;
 
-        // Right
-        for (int i = w + 1; i < width; i++)
-        {
-            if (potionGrid[i, h].GetComponent<PotionController>().potionType ==
-                potionGrid[w, h].GetComponent<PotionController>().potionType)
-                matches.Add(potionGrid[i, h].GetComponent<PotionController>());
-            else
-                break;
-        }
+        HashSet<TileController> uniqueMatches = new HashSet<TileController>();
 
-        return matches.Count >= 3 ? matches : new List<PotionController>();
+        yield return coroutineLauncher.StartCoroutine(
+            GetMatchesFound(selectedTileInd, uniqueMatches)
+            );
+
+        yield return coroutineLauncher.StartCoroutine(
+            GetMatchesFound(swappedTileInd, uniqueMatches)
+            );
+
+        yield return coroutineLauncher.StartCoroutine(MatchAction(uniqueMatches));
+
+        yield return coroutineLauncher.StartCoroutine(CheckAllMatches());
     }
 
-    public List<PotionController> FindVerticalMatches(int w, int h)
+    private IEnumerator GetMatchesFound(Vector2Int tileIndex, HashSet<TileController> uniqueMatches)
     {
-        List<PotionController> matches = new List<PotionController>();
-        matches.Add(potionGrid[w, h].GetComponent<PotionController>());
+        uniqueMatches.UnionWith(boardFindMatches.FindHorizontalMatches(
+            tileIndex.x, tileIndex.y));
+        uniqueMatches.UnionWith(boardFindMatches.FindVerticalMatches(
+            tileIndex.x, tileIndex.y));
 
-        // Down
-        for (int i = h - 1; i >= 0; i--)
+        yield return null;
+    }
+
+    private IEnumerator MatchAction(HashSet<TileController> potionsMatch)
+    {
+        TileController[,] tiles = boardGrid.tiles;
+
+        if (potionsMatch.Count >= 3)
         {
-            if (potionGrid[w, i].GetComponent<PotionController>().potionType ==
-                potionGrid[w, h].GetComponent<PotionController>().potionType)
-                matches.Add(potionGrid[w, i].GetComponent<PotionController>());
-            else
-                break;
-        }
+            foreach (var potion in potionsMatch)
+            {
+                tiles[potion.tileIndex.x, potion.tileIndex.y].HidePotion();
+            }
 
-        // Up
-        for (int i = h + 1; i < height; i++)
+            yield return new WaitForSeconds(0.3f);
+            yield return coroutineLauncher.StartCoroutine(boardRefill.Refill());
+            swapPotion.Reset();
+        }
+        else
         {
-            if (potionGrid[w, i] == null)
-                Debug.Log($"Catch null {i}");
-
-            if (potionGrid[w, i].GetComponent<PotionController>().potionType ==
-                potionGrid[w, h].GetComponent<PotionController>().potionType)
-                matches.Add(potionGrid[w, i].GetComponent<PotionController>());
-            else
-                break;
+            yield return new WaitForSeconds(0.3f);
+            swapPotion.Undo();
         }
-
-        return matches.Count >= 3 ? matches : new List<PotionController>();
     }
 }

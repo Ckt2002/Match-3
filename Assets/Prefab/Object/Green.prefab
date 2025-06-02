@@ -10,10 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4353820693793413996}
   - component: {fileID: 3260403534406171072}
-  - component: {fileID: 538519427447007462}
-  - component: {fileID: 6902810236941284543}
   - component: {fileID: 7602619764722600821}
-  - component: {fileID: -4459549410527149560}
   - component: {fileID: 9138560861099814877}
   m_Layer: 0
   m_Name: Green
@@ -92,79 +89,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &538519427447007462
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 137985451860979834}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.06, y: 2.4}
-    newSize: {x: 2.06, y: 2.4}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 2.06, y: 2.4}
-  m_EdgeRadius: 0
---- !u!50 &6902810236941284543
-Rigidbody2D:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 137985451860979834}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!114 &7602619764722600821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,21 +102,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   potionType: 1
-  originalScale: {x: 0.8, y: 0.8, z: 0.8}
-  mouseEnterScale: {x: 1, y: 1, z: 1}
   scaleDuration: 0.3
---- !u!114 &-4459549410527149560
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 137985451860979834}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ee30cb1425acd943959fb72957a862a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  moveDuration: 0.3
 --- !u!114 &9138560861099814877
 MonoBehaviour:
   m_ObjectHideFlags: 0

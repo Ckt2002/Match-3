@@ -1,84 +1,29 @@
+using DG.Tweening;
+using System;
 using UnityEngine;
 
 public class PotionController : MonoBehaviour
 {
     public EPotionType potionType;
-    public Vector3 originalMousePos { get; set; } = Vector3.zero;
-    public Vector2Int potionIndex { get; private set; } = Vector2Int.zero;
-    public BoardController boardController { get; private set; }
+    public float scaleDuration = 0.3f;
+    public float moveDuration = 0.3f;
 
-    [SerializeField] private Vector3 originalScale = Vector3.one;
-    [SerializeField] private Vector3 mouseEnterScale = Vector3.one;
-    [SerializeField] private float scaleDuration = 0.3f;
-
-    private bool isSelected, isHiding, isDragging = false;
-    private PotionStateMachine stateMachine;
-
-    private void Start()
+    public void Hide(Action action = null)
     {
-        stateMachine = GetComponent<PotionStateMachine>();
-        boardController = BoardController.Instance;
-    }
-
-    private void OnMouseEnter()
-    {
-        if (!isHiding)
-            stateMachine.ChangeState(new PotionMouseEnterState(this, scaleDuration, mouseEnterScale));
-    }
-
-    private void OnMouseExit()
-    {
-        if (!isHiding)
-            stateMachine.ChangeState(new PotionMouseExitState(this, scaleDuration, originalScale));
-    }
-
-    private void OnMouseDown()
-    {
-        if (!isSelected && !isHiding)
+        transform.DOScale(Vector3.zero, scaleDuration).OnComplete(() =>
         {
-            isSelected = true;
-            originalMousePos = Input.mousePosition;
-            boardController.SetSelectedPotion(this);
-        }
+            action?.Invoke();
+            gameObject.SetActive(false);
+        });
     }
 
-    private void OnMouseDrag()
+    public void ChangeScale(Vector3 scale)
     {
-        if (!isDragging && !isHiding)
-        {
-            stateMachine.ChangeState(new PotionDragState(this));
-            isDragging = true;
-        }
-    }
-
-    private void OnMouseUp()
-    {
-        stateMachine.ChangeState(new PotionReleaseState(this));
-        isSelected = false;
-        isDragging = false;
-    }
-
-    public void Hide()
-    {
-        stateMachine.ChangeState(new PotionHideState(this, Reset));
-        isHiding = true;
-    }
-
-    private void Reset()
-    {
-        isSelected = false;
-        isDragging = false;
-        isHiding = false;
-        transform.localScale = Vector3.one;
+        transform.DOScale(scale, scaleDuration);
     }
 
     public void Move(Vector3 targetPos)
     {
-        stateMachine.ChangeState(new PotionMoveState(this, targetPos));
-    }
-
-    public void SetPotionIndex(Vector2Int newIndex)
-    {
-        potionIndex = newIndex;
+        transform.DOMove(targetPos, moveDuration);
     }
 }
