@@ -1,3 +1,3 @@
-﻿public interface IPotionPooling : IDictCreator, IListCreator
+﻿public interface IPotionPooling : IPotionDictCreator, IPotionListCreator
 {
 }

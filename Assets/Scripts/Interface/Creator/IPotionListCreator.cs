@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public interface IListCreator
+public interface IPotionListCreator
 {
     List<PotionController> Create(int type, int spawnNumber);
 }

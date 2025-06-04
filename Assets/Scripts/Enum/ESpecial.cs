@@ -1,0 +1,21 @@
+﻿public enum ESpecial
+{
+    BlueH,
+    BlueV,
+    CyanH,
+    CyanV,
+    Explosion,
+    GreenH,
+    GreenV,
+    Lightning,
+    OrangeH,
+    OrangeV,
+    PinkH,
+    PinkV,
+    PurpleH,
+    PurpleV,
+    RedH,
+    RedV,
+    YellowH,
+    YellowV
+}

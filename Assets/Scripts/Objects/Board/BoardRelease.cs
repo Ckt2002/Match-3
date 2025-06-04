@@ -14,6 +14,6 @@ public class BoardRelease
 
     public void Release()
     {
-        coroutineLauncher.StartCoroutine(boardCheckMatch.CheckMatch());
+        coroutineLauncher.StartCoroutine(boardCheckMatch.CheckMatchAfterSwap());
     }
 }

@@ -577,6 +577,37 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &158903623
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 158903624}
+  m_Layer: 0
+  m_Name: SpecialContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &158903624
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 158903623}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 989105973}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &170930458
 GameObject:
   m_ObjectHideFlags: 0
@@ -3421,6 +3452,7 @@ Transform:
   m_Children:
   - {fileID: 1382614470}
   - {fileID: 13386053}
+  - {fileID: 158903624}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &989105974
@@ -5172,6 +5204,7 @@ GameObject:
   - component: {fileID: 1563896336}
   - component: {fileID: 1563896337}
   - component: {fileID: 1563896338}
+  - component: {fileID: 1563896339}
   m_Layer: 0
   m_Name: Pooling
   m_TagString: Untagged
@@ -5220,9 +5253,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   potionPrefabs:
   - {fileID: 6768110933777805389, guid: c2308700a24bef34c98f515686e9bff7, type: 3}
+  - {fileID: 3430453130156010898, guid: bad1acdd9ab2a1e4fac54e38adb8bb1a, type: 3}
   - {fileID: 137985451860979834, guid: c07eb1719b5d90348b0c781e1517da57, type: 3}
   - {fileID: 3271227277189922863, guid: 7ae44dc1b21e88849b0141360907c040, type: 3}
-  - {fileID: 4214816494534410914, guid: d4d950b1c3e271042b0d23c3ad8392fd, type: 3}
+  - {fileID: 6882467483043796527, guid: dfa77fc5b4a7e1d40b82d255e4a90b58, type: 3}
+  - {fileID: 7104638339539803436, guid: d972763d1c4c1d8408d955255197151c, type: 3}
   potionContainer: {fileID: 13386053}
 --- !u!114 &1563896338
 MonoBehaviour:
@@ -5238,6 +5273,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilePrefab: {fileID: 3390761234632534977, guid: df23a06e37f51794ca8fb5dca90b874f, type: 3}
   tileContainer: {fileID: 1382614470}
+--- !u!114 &1563896339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1563896334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec90ef9320c5a9642815c4adf5369655, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  potionPrefabs:
+  - {fileID: 8985964116600953943, guid: 422c783221c0aca49914476db87bd334, type: 3}
+  - {fileID: 4377721805174936830, guid: 423c0709baf894740bd39eaf42222446, type: 3}
+  - {fileID: 7455419534874890122, guid: eaae77e3db41efe46b5bf512189accd5, type: 3}
+  - {fileID: 2644698016859743337, guid: f17fcd0e614b81140832856ebafd1788, type: 3}
+  - {fileID: 4084064338380450990, guid: e09dc6ecbe164a84fa4c30ac3f2f0122, type: 3}
+  - {fileID: 6563861350394562529, guid: 878af393b16aa5c488fbfdcb34f539e1, type: 3}
+  - {fileID: 8698004845991635315, guid: d11dad25acfdf974eb253a98324f103c, type: 3}
+  - {fileID: 4616715058076180730, guid: bdbe635517fad4c44bc368167d704e77, type: 3}
+  - {fileID: 4563647754674752322, guid: 80b3544be85c65f49bdbeb53d84ff263, type: 3}
+  - {fileID: 5027288878442442536, guid: 397e47bf498f71841a9d29a0c3923d46, type: 3}
+  - {fileID: 5539757715165695070, guid: 77b511cb46b8bf74d9ae77f1a39f7a8a, type: 3}
+  - {fileID: 7276610660774660492, guid: 59dccaf188a3cf342bb8ca33660d18a1, type: 3}
+  - {fileID: 5137024668221897355, guid: 40a6bfc8ab01db64f9787c4c24c8bc54, type: 3}
+  - {fileID: 1058079461576212242, guid: dd9a1f44d768f8d41ab8911d7b57ce08, type: 3}
+  potionContainer: {fileID: 158903624}
 --- !u!1 &1579773032
 GameObject:
   m_ObjectHideFlags: 0

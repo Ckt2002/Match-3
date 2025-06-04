@@ -36,7 +36,7 @@ public class BoardController : MonoBehaviour
         boardDrag.Drag(moveType);
     }
 
-    public void ReleasePotion()
+    public void ReleaseTile()
     {
         if (boardSwap.selectedTile == null)
             return;
@@ -44,4 +44,6 @@ public class BoardController : MonoBehaviour
         boardRelease.Release();
         boardDrag.Reset();
     }
+
+    //public void
 }

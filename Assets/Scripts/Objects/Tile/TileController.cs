@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Text;
+using UnityEngine;
 
 public class TileController : MonoBehaviour
 {
@@ -6,8 +7,6 @@ public class TileController : MonoBehaviour
     public Vector2Int tileIndex { get; private set; }
     public Vector3 originalMousePos { get; set; } = Vector3.zero;
     public BoardController boardController { get; private set; }
-    public Vector3 potionMouseEnterScale = Vector3.one;
-    public Vector3 potionOriginalScale = Vector3.one;
 
     private bool isSelected, isHiding, isDragging = false;
 
@@ -23,19 +22,19 @@ public class TileController : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        if (!isHiding)
-            potion.ChangeScale(potionMouseEnterScale);
+        if (!isHiding && potion != null)
+            potion.ZoomScale();
     }
 
     private void OnMouseExit()
     {
-        if (!isHiding)
-            potion.ChangeScale(potionOriginalScale);
+        if (!isHiding && potion != null)
+            potion.ResetScale();
     }
 
     private void OnMouseDown()
     {
-        if (!isSelected && !isHiding)
+        if (!isSelected && !isHiding && potion != null)
         {
             isSelected = true;
             originalMousePos = Input.mousePosition;
@@ -45,7 +44,7 @@ public class TileController : MonoBehaviour
 
     private void OnMouseDrag()
     {
-        if (!isDragging && !isHiding)
+        if (!isDragging && !isHiding && potion != null)
         {
             var mouseInput = Input.mousePosition;
             Vector3 currentMousePos = Input.mousePosition;
@@ -75,8 +74,9 @@ public class TileController : MonoBehaviour
 
     private void OnMouseUp()
     {
-        potion.ChangeScale(potionOriginalScale);
-        boardController.ReleasePotion();
+        if (potion != null)
+            potion.ResetScale();
+        boardController.ReleaseTile();
         isSelected = false;
         isDragging = false;
     }
@@ -102,7 +102,7 @@ public class TileController : MonoBehaviour
         if (this.potion != null)
         {
             potion.transform.localPosition = transform.localPosition;
-            potion.ChangeScale(potionOriginalScale);
+            potion.ResetScale();
         }
     }
 
@@ -112,12 +112,33 @@ public class TileController : MonoBehaviour
         if (this.potion != null)
         {
             MovePotion(transform.localPosition);
-            potion.ChangeScale(potionOriginalScale);
+            potion.ResetScale();
         }
     }
 
     public void MovePotion(Vector3 targetPos)
     {
         potion.Move(targetPos);
+    }
+
+    public void GetSpecialType(ESpecialType specialType)
+    {
+        StringBuilder specialName = new StringBuilder();
+        specialName.Append(specialType.ToString());
+        if (specialType != ESpecialType.Explosion &&
+            specialType != ESpecialType.Lightning)
+        {
+            string newName = potion.potionType.ToString() + specialName.ToString();
+            specialName.Clear().Append(newName);
+        }
+
+        isHiding = true;
+        potion.Hide(() =>
+        {
+            isHiding = false;
+            potion = null;
+            ESpecial.TryParse(specialName.ToString(), ignoreCase: true, out ESpecial parsed);
+            SetPotion(PoolingController.Instance.GetSpecial((int)parsed));
+        });
     }
 }
