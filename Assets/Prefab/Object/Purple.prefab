@@ -102,9 +102,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   potionType: 5
+  specialType: 4
   zoomsize: {x: 1, y: 1, z: 1}
   scaleDuration: 0.3
   moveDuration: 0.3
+  isSpecial: 0
 --- !u!114 &-3217397383308975902
 MonoBehaviour:
   m_ObjectHideFlags: 0

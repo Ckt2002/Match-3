@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ArrangerController : MonoBehaviour
@@ -14,10 +15,14 @@ public class ArrangerController : MonoBehaviour
             Destroy(Instance);
     }
 
-    public void Arrange(int width, int height)
+    public async void Arrange(int width, int height)
     {
+        LevelData level = await LevelController.Instance.LoadLevel();
+        List<TileData> tileData = level.Tiles;
+
         BoardGrid boardGrid = BoardController.Instance.boardGrid;
         PoolingController poolingController = PoolingController.Instance;
+        poolingController.AssignPotionRange(level.PotionRange);
 
         TileController[,] tiles = poolingController.tiles;
 
@@ -32,12 +37,20 @@ public class ArrangerController : MonoBehaviour
                 TileController tile = tiles[w, h];
                 tile.SetTileIndex(new Vector2Int(w, h));
                 tile.transform.position = tilePos;
-                tile.SetPotion(poolingController.GetRandomPotion());
             }
         }
 
+        foreach (var tile in tileData)
+        {
+            int w = tile.W;
+            int h = tile.H;
+            tiles[w, h].gameObject.SetActive(tile.Active);
+            tiles[w, h].AssignObstacle(tile.ObstacleIndex);
+            tiles[w, h].AssignPotion(PoolingController.Instance.GetPotion(tile.PotionIndex));
+        }
+
         boardGrid.InitTile(tiles, width, height);
-        BoardCheckMatch checkMatch = BoardController.Instance.boardCheckMatch;
+        CheckMatch checkMatch = BoardController.Instance.boardCheckMatch;
         StartCoroutine(checkMatch.CheckAllMatches());
     }
 }

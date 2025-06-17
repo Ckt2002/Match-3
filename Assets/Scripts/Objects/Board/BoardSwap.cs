@@ -1,17 +1,20 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using UnityEngine;
 
 public class BoardSwap
 {
+    public Func<IEnumerator> checkMatchFunc;
+
     BoardGrid boardGrid;
     TileController[,] tiles;
+    MonoBehaviour coroutineLauncher;
     int gridWidth, gridHeight;
 
-    public TileController selectedTile { get; private set; }
-    public TileController swappedTile { get; private set; }
-
-    public BoardSwap(BoardGrid boardGrid)
+    public BoardSwap(BoardGrid boardGrid, MonoBehaviour coroutineLauncher)
     {
         this.boardGrid = boardGrid;
+        this.coroutineLauncher = coroutineLauncher;
     }
 
     public void InitSwap()
@@ -21,28 +24,23 @@ public class BoardSwap
         gridHeight = boardGrid.height;
     }
 
-    public void SetSelectedPotion(TileController selectedTile)
-    {
-        this.selectedTile = selectedTile;
-    }
-
     public void Swap(Vector2Int swappedTileIndex, Vector2Int selectedTileIndex)
     {
         if (tiles == null)
             InitSwap();
 
-        if (swappedTile == null)
-            swappedTile = GetSwappedTile(swappedTileIndex);
+        if (boardGrid.swappedTile == null)
+            boardGrid.AssignSwappedTile(GetSwappedTile(swappedTileIndex));
 
-        if (swappedTile != null && selectedTile != null)
+        if (boardGrid.swappedTile != null && boardGrid.selectedTile != null)
         {
             PotionController swappedPotion = tiles[swappedTileIndex.x, swappedTileIndex.y].potion;
 
-            tiles[swappedTileIndex.x, swappedTileIndex.y].ChangePotion(selectedTile.potion);
+            tiles[swappedTileIndex.x, swappedTileIndex.y].ChangePotion(boardGrid.selectedTile.potion);
             tiles[selectedTileIndex.x, selectedTileIndex.y].ChangePotion(swappedPotion);
         }
-        else
-            Debug.LogWarning("The next to potion does not exist");
+
+        coroutineLauncher.StartCoroutine(checkMatchFunc());
     }
 
     private TileController GetSwappedTile(Vector2Int swappedPotionIndex)
@@ -58,14 +56,8 @@ public class BoardSwap
 
     public void Undo()
     {
-        if (selectedTile != null && swappedTile != null)
-            Swap(swappedTile.tileIndex, selectedTile.tileIndex);
-        Reset();
-    }
-
-    public void Reset()
-    {
-        selectedTile = null;
-        swappedTile = null;
+        if (boardGrid.selectedTile != null && boardGrid.swappedTile != null)
+            Swap(boardGrid.swappedTile.tileIndex, boardGrid.selectedTile.tileIndex);
+        boardGrid.ResetTileTemp();
     }
 }

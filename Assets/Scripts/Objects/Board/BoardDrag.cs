@@ -3,23 +3,21 @@ using UnityEngine;
 
 public class BoardDrag
 {
-    Action<Vector2Int, Vector2Int> swapAction;
-    TileController selectedTile;
+    public Action<Vector2Int, Vector2Int> swapAction;
+    BoardGrid boardGrid;
 
-    public BoardDrag(Action<Vector2Int, Vector2Int> action)
+    public BoardDrag(BoardGrid boardGrid)
     {
-        swapAction += action;
-    }
-
-    public void SetSelectedTile(TileController selectedTile)
-    {
-        this.selectedTile = selectedTile;
+        this.boardGrid = boardGrid;
     }
 
     public void Drag(EMoveType moveType)
     {
-        Vector2Int nexTileIndex = selectedTile.tileIndex;
-        Vector2Int selectedTileIndex = selectedTile.tileIndex;
+        if (boardGrid.selectedTile == null)
+            return;
+
+        Vector2Int nexTileIndex = boardGrid.selectedTile.tileIndex;
+        Vector2Int selectedTileIndex = boardGrid.selectedTile.tileIndex;
 
         IMoveStrategy strategy = moveType switch
         {
@@ -30,14 +28,9 @@ public class BoardDrag
             _ => null
         };
 
-        if (strategy == null || selectedTile == null)
+        if (strategy == null || boardGrid.selectedTile == null)
             return;
 
         swapAction.Invoke(strategy.GetTargetIndex(nexTileIndex), selectedTileIndex);
-    }
-
-    public void Reset()
-    {
-        selectedTile = null;
     }
 }

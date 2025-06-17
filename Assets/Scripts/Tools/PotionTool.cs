@@ -1,13 +1,15 @@
+#if UNITY_EDITOR
 using System.Text;
 using UnityEngine;
 
-public class Tool : MonoBehaviour
+public class PotionTool : MonoBehaviour
 {
     [ContextMenu("Set Potion Type")]
     void SetPotionType()
     {
         EPotion.TryParse(gameObject.name, ignoreCase: true, out EPotion parsedType);
         GetComponent<PotionController>().potionType = parsedType;
+        GetComponent<PotionController>().isSpecial = false;
     }
 
     [ContextMenu("Assign Specials")]
@@ -34,5 +36,7 @@ public class Tool : MonoBehaviour
 
         ESpecialType.TryParse(specialType.ToString(), ignoreCase: true, out ESpecialType parsedType);
         GetComponent<SpecialController>().specialType = parsedType;
+        GetComponent<PotionController>().isSpecial = true;
     }
 }
+#endif

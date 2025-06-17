@@ -9,6 +9,8 @@ public class PoolingController : MonoBehaviour
     public Dictionary<int, List<SpecialController>> specials { get; private set; }
     public TileController[,] tiles { get; private set; }
 
+    public Vector2Int potionRandomRange;
+
     IPotionPooling potionPooling;
     ISpecialPooling specialPooling;
     ITilePooling tilePooling;
@@ -25,6 +27,11 @@ public class PoolingController : MonoBehaviour
         specialPooling = GetComponent<SpecialPooling>();
     }
 
+    public void AssignPotionRange(Vector2Int potionRandomRange)
+    {
+        this.potionRandomRange = potionRandomRange;
+    }
+
     public void CreateGame(int width, int height)
     {
         potions = potionPooling.Create(width * height / 2);
@@ -34,7 +41,7 @@ public class PoolingController : MonoBehaviour
 
     public PotionController GetRandomPotion()
     {
-        int type = Random.Range(0, potions.Count);
+        int type = Random.Range(potionRandomRange.x, potionRandomRange.y);
         foreach (var potion in potions[type])
             if (!potion.gameObject.activeInHierarchy)
             {
@@ -44,6 +51,24 @@ public class PoolingController : MonoBehaviour
 
         var newPotions = potionPooling.Create(type, 1);
         potions[type].AddRange(newPotions);
+        newPotions[0].gameObject.SetActive(true);
+        return newPotions[0];
+    }
+
+    public PotionController GetPotion(int index)
+    {
+        if (index < 0)
+            return null;
+
+        foreach (var potion in potions[index])
+            if (!potion.gameObject.activeInHierarchy)
+            {
+                potion.gameObject.SetActive(true);
+                return potion;
+            }
+
+        var newPotions = potionPooling.Create(index, 1);
+        potions[index].AddRange(newPotions);
         newPotions[0].gameObject.SetActive(true);
         return newPotions[0];
     }

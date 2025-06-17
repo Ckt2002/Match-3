@@ -1,26 +1,30 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 public class BoardRefill
 {
     BoardGrid boardGrid;
-    MonoBehaviour coroutineLauncher;
     PoolingController poolingController;
+    MovePotions movePotions;
     TileController[,] tiles;
     int width, height;
+    public Func<IEnumerator> checkRegenerateFunc;
 
-    public BoardRefill(BoardGrid boardGrid, MonoBehaviour coroutineLauncher)
+    public BoardRefill(BoardGrid boardGrid)
     {
         this.boardGrid = boardGrid;
-        this.coroutineLauncher = coroutineLauncher;
     }
 
     public IEnumerator InitRefill()
     {
         tiles = boardGrid.tiles;
-        poolingController = PoolingController.Instance;
         width = boardGrid.width;
         height = boardGrid.height;
+        poolingController = PoolingController.Instance;
+        movePotions = new MovePotions(boardGrid);
+        movePotions.spawnFunc = FillRemainNull;
+        movePotions.checkRegenerateFunc = checkRegenerateFunc;
 
         yield return null;
     }
@@ -28,55 +32,45 @@ public class BoardRefill
     public IEnumerator Refill()
     {
         if (tiles == null)
-            yield return coroutineLauncher.StartCoroutine(InitRefill());
+            yield return InitRefill();
 
-        yield return coroutineLauncher.StartCoroutine(MoveDown());
-
-        yield return coroutineLauncher.StartCoroutine(FillRemainNull());
+        yield return MovePotion();
     }
 
-    public IEnumerator MoveDown()
+    public IEnumerator MovePotion()
     {
-        bool completed = false;
+        yield return movePotions.MoveDown(0, width, 0, height);
 
-        for (int w = 0; w < width; w++)
-        {
-            for (int h = 0; h < height; h++)
-            {
-                if (tiles[w, h].potion == null)
-                {
-                    for (int ny = h + 1; ny < height; ny++)
-                    {
-                        if (tiles[w, ny].potion != null)
-                        {
-                            tiles[w, h].ChangePotion(tiles[w, ny].potion);
-                            tiles[w, ny].SetPotion(null);
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        completed = true;
-        yield return new WaitUntil(() => completed);
+        yield return movePotions.MoveDiagonally();
     }
 
-    public IEnumerator FillRemainNull()
+    public IEnumerator FillRemainNull(int fromW, int toW)
     {
-        bool completed = false;
-        for (int w = 0; w < width; w++)
+        if (tiles == null)
+            yield return InitRefill();
+
+        List<TileController> tilesTemp = new();
+        for (int w = fromW; w < toW; w++)
         {
-            for (int h = 0; h < height; h++)
+            tilesTemp.Clear();
+            for (int h = height - 1; h >= 0; h--)
             {
-                if (tiles[w, h].potion == null)
-                {
-                    PotionController potion = poolingController.GetRandomPotion();
-                    potion.transform.localPosition = tiles[w, height - 1].transform.localPosition;
-                    tiles[w, h].ChangePotion(potion);
-                }
+                if (tiles[w, h].currentObstacle != null)
+                    break;
+
+                if (!tiles[w, h].gameObject.activeInHierarchy || tiles[w, h].potion != null)
+                    continue;
+                tilesTemp.Add(tiles[w, h]);
             }
+            tilesTemp.Reverse();
+            yield return null;
+            foreach (var tile in tilesTemp)
+            {
+                PotionController potion = poolingController.GetRandomPotion();
+                potion.transform.localPosition = tiles[w, height - 1].transform.localPosition;
+                tile.ChangePotion(potion);
+            }
+            yield return null;
         }
-        completed = true;
-        yield return new WaitUntil(() => completed);
     }
 }

@@ -105,6 +105,7 @@ MonoBehaviour:
   zoomsize: {x: 1, y: 1, z: 1}
   scaleDuration: 0.3
   moveDuration: 0.3
+  isSpecial: 1
   specialType: 2
 --- !u!114 &964812948042016603
 MonoBehaviour:

@@ -1,5 +1,4 @@
-﻿using System.Text;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TileController : MonoBehaviour
 {
@@ -7,12 +6,35 @@ public class TileController : MonoBehaviour
     public Vector2Int tileIndex { get; private set; }
     public Vector3 originalMousePos { get; set; } = Vector3.zero;
     public BoardController boardController { get; private set; }
+    public IObstacle[] obstacles { get; set; }
+    public IObstacle currentObstacle { get; private set; }
 
-    private bool isSelected, isHiding, isDragging = false;
+    private bool isSelected, isHiding, isDestroying, isDragging;
+
+    private void Awake()
+    {
+        obstacles = GetComponentsInChildren<IObstacle>(true);
+        foreach (var obstacle in obstacles)
+            obstacle.RegisterAction(() => currentObstacle = null);
+    }
+
+    public void AssignObstacle(int index)
+    {
+        if (index >= 0)
+        {
+            currentObstacle = obstacles[index];
+            currentObstacle.ActiveObstacle();
+        }
+    }
+
+    public void DestroyCurrentObstacle()
+    {
+        currentObstacle.TakeDamage();
+    }
 
     private void OnEnable()
     {
-        isSelected = isHiding = isDragging = false;
+        isSelected = isHiding = isDestroying = isDragging = false;
     }
 
     private void Start()
@@ -22,73 +44,45 @@ public class TileController : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        if (!isHiding && potion != null)
-            potion.ZoomScale();
+        new TileMouseEnter().MouseEnter(potion, isHiding);
     }
 
     private void OnMouseExit()
     {
-        if (!isHiding && potion != null)
-            potion.ResetScale();
+        new TileMouseExit().MouseExit(potion, isHiding);
     }
 
     private void OnMouseDown()
     {
-        if (!isSelected && !isHiding && potion != null)
-        {
-            isSelected = true;
-            originalMousePos = Input.mousePosition;
-            boardController.SetSelectedTile(this);
-        }
+        new TileMouseDown().MouseDown(potion, boardController, this, isSelected, isHiding,
+            (mousePos) => originalMousePos = mousePos);
     }
 
     private void OnMouseDrag()
     {
-        if (!isDragging && !isHiding && potion != null)
-        {
-            var mouseInput = Input.mousePosition;
-            Vector3 currentMousePos = Input.mousePosition;
-            Vector3 dragDirection = currentMousePos - originalMousePos;
-            float deadzone = 15f;
-            EMoveType moveType = EMoveType.Down;
-            if (dragDirection.magnitude > deadzone)
-            {
-                if (Mathf.Abs(dragDirection.x) > Mathf.Abs(dragDirection.y))
-                {
-                    if (dragDirection.x > 0)
-                        moveType = EMoveType.Right;
-                    else
-                        moveType = EMoveType.Left;
-                }
-                else
-                {
-                    if (dragDirection.y > 0)
-                        moveType = EMoveType.Up;
-                }
-
-                boardController.DragTile(moveType);
-                isDragging = true;
-            }
-        }
+        new TileMouseDrag().MouseDrag(potion, boardController, originalMousePos, isHiding, isDragging,
+            (dragging) => isDragging = dragging);
     }
 
     private void OnMouseUp()
     {
-        if (potion != null)
-            potion.ResetScale();
-        boardController.ReleaseTile();
-        isSelected = false;
-        isDragging = false;
+        new TileMouseUp().MouseUp(potion,
+            (value) =>
+            {
+                isSelected = value;
+                isDragging = value;
+            });
     }
 
     public void HidePotion()
     {
-        isHiding = true;
-        potion.Hide(() =>
-        {
-            isHiding = false;
-            potion = null;
-        });
+        new TileHidePotion().HidePotion(potion, isHiding,
+            (value) => isHiding = value,
+            () =>
+            {
+                isHiding = false;
+                potion = null;
+            });
     }
 
     public void SetTileIndex(Vector2Int index)
@@ -96,14 +90,24 @@ public class TileController : MonoBehaviour
         tileIndex = index;
     }
 
-    public void SetPotion(PotionController potion)
+    public void AssignPotion(PotionController potion, bool changePos = true)
     {
         this.potion = potion;
-        if (this.potion != null)
+        if (this.potion != null && changePos)
         {
             potion.transform.localPosition = transform.localPosition;
             potion.ResetScale();
+            isDestroying = false;
         }
+    }
+
+    public void ClearTilePotion()
+    {
+        if (this.potion != null)
+        {
+            HidePotion();
+        }
+        this.potion = null;
     }
 
     public void ChangePotion(PotionController potion)
@@ -111,34 +115,72 @@ public class TileController : MonoBehaviour
         this.potion = potion;
         if (this.potion != null)
         {
-            MovePotion(transform.localPosition);
+            potion.Move(transform.localPosition);
             potion.ResetScale();
+            isDestroying = false;
         }
     }
 
-    public void MovePotion(Vector3 targetPos)
+    public void AssignSpecialType(ESpecialType specialType)
     {
-        potion.Move(targetPos);
+        new TileAssignSpecialPotion().AssignSpecial(specialType, potion, potion.potionType,
+            (value) => isHiding = value,
+            () => { isHiding = false; potion = null; },
+            AssignPotion);
     }
 
-    public void GetSpecialType(ESpecialType specialType)
+    public void ActiveSpecial()
     {
-        StringBuilder specialName = new StringBuilder();
-        specialName.Append(specialType.ToString());
-        if (specialType != ESpecialType.Explosion &&
-            specialType != ESpecialType.Lightning)
+        if (!isDestroying && potion != null)
         {
-            string newName = potion.potionType.ToString() + specialName.ToString();
-            specialName.Clear().Append(newName);
+            isDestroying = true;
+            potion.ActiveSpecial(this);
         }
-
-        isHiding = true;
-        potion.Hide(() =>
-        {
-            isHiding = false;
-            potion = null;
-            ESpecial.TryParse(specialName.ToString(), ignoreCase: true, out ESpecial parsed);
-            SetPotion(PoolingController.Instance.GetSpecial((int)parsed));
-        });
     }
+
+
+#if UNITY_EDITOR
+    public void AssignObstacleTool(int index)
+    {
+        ClearObstacleTool();
+        currentObstacle = obstacles[index];
+        currentObstacle.ActiveObstacle();
+    }
+
+    public void AssignPotionTool(PotionController potion)
+    {
+        if (this.potion != null)
+        {
+            this.potion.gameObject.SetActive(false);
+            this.potion = null;
+        }
+        this.potion = potion;
+        if (this.potion != null)
+        {
+            potion.transform.localPosition = transform.localPosition;
+            potion.ResetScale();
+            isDestroying = false;
+        }
+    }
+
+    public void ClearObstacleTool()
+    {
+        if (currentObstacle != null)
+        {
+            currentObstacle.HideObstacle();
+            currentObstacle = null;
+        }
+    }
+    public void ClearTileTool()
+    {
+        potion?.gameObject.SetActive(false);
+        potion = null;
+
+        if (currentObstacle != null)
+        {
+            currentObstacle.HideObstacle();
+            currentObstacle = null;
+        }
+    }
+#endif
 }

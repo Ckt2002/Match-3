@@ -8,4 +8,5 @@ public enum EPotion
     Purple,
     Red,
     Yellow,
+    None,
 }

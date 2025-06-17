@@ -1,0 +1,44 @@
+{
+    "Levels": [
+        {
+            "Level": 1,
+            "Locked": false
+        },
+        {
+            "Level": 2,
+            "Locked": false
+        },
+        {
+            "Level": 3,
+            "Locked": false
+        },
+        {
+            "Level": 4,
+            "Locked": false
+        },
+        {
+            "Level": 5,
+            "Locked": false
+        },
+        {
+            "Level": 6,
+            "Locked": false
+        },
+        {
+            "Level": 7,
+            "Locked": false
+        },
+        {
+            "Level": 8,
+            "Locked": false
+        },
+        {
+            "Level": 9,
+            "Locked": false
+        },
+        {
+            "Level": 10,
+            "Locked": false
+        }
+    ]
+}

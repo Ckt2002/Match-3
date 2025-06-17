@@ -3,5 +3,6 @@
     Explosion,
     H,
     V,
-    Lightning
+    Lightning,
+    None
 }

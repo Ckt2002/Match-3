@@ -3,7 +3,7 @@
 public class GameController : MonoBehaviour
 {
     public static GameController Instance;
-
+    public static bool mouseInteract = true;
     public int width, height;
 
     private void Awake()
@@ -11,7 +11,7 @@ public class GameController : MonoBehaviour
         if (Instance == null)
             Instance = this;
         else
-            Destroy(Instance);
+            Destroy(gameObject);
     }
 
     private void Start()

@@ -3,7 +3,9 @@ using System.Linq;
 
 public class FindSpecialBlock
 {
-    public static Dictionary<TileController, ESpecialType> FindSpecialBlocks(HashSet<TileController> matches)
+
+    public static Dictionary<TileController, ESpecialType> FindSpecialBlocks(HashSet<TileController> matches,
+        BoardGrid boardGrid)
     {
         var specials = new Dictionary<TileController, ESpecialType>();
 
@@ -11,6 +13,7 @@ public class FindSpecialBlock
         var rowMatches = matches.GroupBy(t => new { t.tileIndex.x, t.potion.potionType });
         var colMatches = matches.GroupBy(t => new { t.tileIndex.y, t.potion.potionType });
 
+        #region Check Bomb
         foreach (var row in rowMatches.Where(g => g.Count() >= 3))
         {
             foreach (var col in colMatches.Where(g => g.Count() >= 3))
@@ -19,13 +22,14 @@ public class FindSpecialBlock
                 if (intersection.Any())
                 {
                     TileController tile = intersection.First();
-                    tile.GetSpecialType(ESpecialType.Explosion);
                     specials[tile] = ESpecialType.Explosion;
                 }
             }
         }
+        #endregion
 
-        foreach (var row in rowMatches.Where(g => g.Count() >= 4))
+        #region Check Lightning
+        foreach (var row in rowMatches.Where(g => g.Count() >= 5))
         {
             bool isLineOnly = !colMatches.Any(col =>
                 col.Count() >= 3 && col.Intersect(row).Any());
@@ -33,12 +37,15 @@ public class FindSpecialBlock
             if (isLineOnly)
             {
                 var middleTile = row.OrderBy(t => t.tileIndex.x).ElementAt(row.Count() / 2);
-                middleTile.GetSpecialType(ESpecialType.H);
-                specials[middleTile] = ESpecialType.H;
+                if (row.Contains(boardGrid.selectedTile))
+                    middleTile = boardGrid.selectedTile;
+                else if (row.Contains(boardGrid.swappedTile))
+                    middleTile = boardGrid.swappedTile;
+                specials[middleTile] = ESpecialType.Lightning;
             }
         }
 
-        foreach (var col in colMatches.Where(g => g.Count() >= 4))
+        foreach (var col in colMatches.Where(g => g.Count() >= 5))
         {
             bool isLineOnly = !rowMatches.Any(row =>
                 row.Count() >= 3 && row.Intersect(col).Any());
@@ -46,10 +53,48 @@ public class FindSpecialBlock
             if (isLineOnly)
             {
                 var middleTile = col.OrderBy(t => t.tileIndex.y).ElementAt(col.Count() / 2);
-                middleTile.GetSpecialType(ESpecialType.V);
+                if (col.Contains(boardGrid.selectedTile))
+                    middleTile = boardGrid.selectedTile;
+                else if (col.Contains(boardGrid.swappedTile))
+                    middleTile = boardGrid.swappedTile;
+                specials[middleTile] = ESpecialType.Lightning;
+            }
+        }
+        #endregion
+
+        #region Check swipe
+        foreach (var row in rowMatches.Where(g => g.Count() == 4))
+        {
+            bool isLineOnly = !colMatches.Any(col =>
+                col.Count() >= 3 && col.Intersect(row).Any());
+
+            if (isLineOnly)
+            {
+                var middleTile = row.OrderBy(t => t.tileIndex.x).ElementAt(row.Count() / 2);
+                if (row.Contains(boardGrid.selectedTile))
+                    middleTile = boardGrid.selectedTile;
+                else if (row.Contains(boardGrid.swappedTile))
+                    middleTile = boardGrid.swappedTile;
+                specials[middleTile] = ESpecialType.H;
+            }
+        }
+
+        foreach (var col in colMatches.Where(g => g.Count() == 4))
+        {
+            bool isLineOnly = !rowMatches.Any(row =>
+                row.Count() >= 3 && row.Intersect(col).Any());
+
+            if (isLineOnly)
+            {
+                var middleTile = col.OrderBy(t => t.tileIndex.y).ElementAt(col.Count() / 2);
+                if (col.Contains(boardGrid.selectedTile))
+                    middleTile = boardGrid.selectedTile;
+                else if (col.Contains(boardGrid.swappedTile))
+                    middleTile = boardGrid.swappedTile;
                 specials[middleTile] = ESpecialType.V;
             }
         }
+        #endregion
 
         return specials;
     }
