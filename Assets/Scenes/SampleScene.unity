@@ -2025,6 +2025,7 @@ MonoBehaviour:
   scaleDuration: 0.3
   moveDuration: 0.3
   isSpecial: 0
+  VFX: {fileID: 0}
 --- !u!212 &91234521
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2466,6 +2467,7 @@ MonoBehaviour:
   scaleDuration: 0.3
   moveDuration: 0.3
   isSpecial: 0
+  VFX: {fileID: 0}
 --- !u!114 &130206530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2823,6 +2825,7 @@ MonoBehaviour:
   scaleDuration: 0.3
   moveDuration: 0.3
   isSpecial: 0
+  VFX: {fileID: 0}
 --- !u!212 &159078005
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2942,6 +2945,7 @@ MonoBehaviour:
   scaleDuration: 0.3
   moveDuration: 0.3
   isSpecial: 0
+  VFX: {fileID: 0}
 --- !u!212 &159482268
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5109,6 +5113,7 @@ MonoBehaviour:
   scaleDuration: 0.3
   moveDuration: 0.3
   isSpecial: 0
+  VFX: {fileID: 0}
 --- !u!212 &295422828
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6619,6 +6624,7 @@ MonoBehaviour:
   scaleDuration: 0.3
   moveDuration: 0.3
   isSpecial: 0
+  VFX: {fileID: 0}
 --- !u!212 &361077208
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -10103,6 +10109,7 @@ MonoBehaviour:
   scaleDuration: 0.3
   moveDuration: 0.3
   isSpecial: 0
+  VFX: {fileID: 0}
 --- !u!212 &495879681
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -10417,6 +10424,7 @@ MonoBehaviour:
   scaleDuration: 0.3
   moveDuration: 0.3
   isSpecial: 0
+  VFX: {fileID: 0}
 --- !u!212 &501021528
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -12801,6 +12809,7 @@ MonoBehaviour:
   scaleDuration: 0.3
   moveDuration: 0.3
   isSpecial: 0
+  VFX: {fileID: 0}
 --- !u!212 &640443615
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -13201,6 +13210,7 @@ MonoBehaviour:
   scaleDuration: 0.3
   moveDuration: 0.3
   isSpecial: 0
+  VFX: {fileID: 0}
 --- !u!212 &652354277
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -13498,6 +13508,7 @@ MonoBehaviour:
   scaleDuration: 0.3
   moveDuration: 0.3
   isSpecial: 0
+  VFX: {fileID: 0}
 --- !u!212 &678879094
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -14626,6 +14637,7 @@ MonoBehaviour:
   scaleDuration: 0.3
   moveDuration: 0.3
   isSpecial: 0
+  VFX: {fileID: 0}
 --- !u!212 &700641416
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -15237,6 +15249,7 @@ MonoBehaviour:
   scaleDuration: 0.3
   moveDuration: 0.3
   isSpecial: 0
+  VFX: {fileID: 0}
 --- !u!212 &738004276
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -18883,6 +18896,7 @@ MonoBehaviour:
   scaleDuration: 0.3
   moveDuration: 0.3
   isSpecial: 0
+  VFX: {fileID: 0}
 --- !u!212 &921705731
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -20074,6 +20088,7 @@ Transform:
   - {fileID: 1382614470}
   - {fileID: 13386053}
   - {fileID: 158903624}
+  - {fileID: 1239491800}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &989105974
@@ -21719,6 +21734,7 @@ MonoBehaviour:
   scaleDuration: 0.3
   moveDuration: 0.3
   isSpecial: 0
+  VFX: {fileID: 0}
 --- !u!212 &1077909024
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -22136,6 +22152,7 @@ MonoBehaviour:
   scaleDuration: 0.3
   moveDuration: 0.3
   isSpecial: 0
+  VFX: {fileID: 0}
 --- !u!212 &1083577610
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -23207,6 +23224,7 @@ MonoBehaviour:
   scaleDuration: 0.3
   moveDuration: 0.3
   isSpecial: 0
+  VFX: {fileID: 0}
 --- !u!212 &1143311900
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -26246,6 +26264,55 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1224653439
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1224653441}
+  - component: {fileID: 1224653440}
+  m_Layer: 0
+  m_Name: Global Volume
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1224653440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1224653439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: 00169cb60ba6fd84eb7b3771c6f33abf, type: 2}
+--- !u!4 &1224653441
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1224653439}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 6.3147473, y: 7.480403, z: -0.7761919}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1225454374
 GameObject:
   m_ObjectHideFlags: 0
@@ -26647,6 +26714,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1239491799
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1239491800}
+  m_Layer: 0
+  m_Name: VFXContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1239491800
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1239491799}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 989105973}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1248121587
 GameObject:
   m_ObjectHideFlags: 0
@@ -26711,6 +26809,7 @@ MonoBehaviour:
   scaleDuration: 0.3
   moveDuration: 0.3
   isSpecial: 0
+  VFX: {fileID: 0}
 --- !u!212 &1248121591
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -26830,6 +26929,7 @@ MonoBehaviour:
   scaleDuration: 0.3
   moveDuration: 0.3
   isSpecial: 0
+  VFX: {fileID: 0}
 --- !u!212 &1249746824
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -27806,6 +27906,7 @@ MonoBehaviour:
   scaleDuration: 0.3
   moveDuration: 0.3
   isSpecial: 0
+  VFX: {fileID: 0}
 --- !u!212 &1318151779
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -28029,6 +28130,7 @@ MonoBehaviour:
   scaleDuration: 0.3
   moveDuration: 0.3
   isSpecial: 0
+  VFX: {fileID: 0}
 --- !u!212 &1333090838
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -28897,6 +28999,7 @@ MonoBehaviour:
   scaleDuration: 0.3
   moveDuration: 0.3
   isSpecial: 0
+  VFX: {fileID: 0}
 --- !u!212 &1360836397
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -29480,6 +29583,7 @@ MonoBehaviour:
   scaleDuration: 0.3
   moveDuration: 0.3
   isSpecial: 0
+  VFX: {fileID: 0}
 --- !u!114 &1381217039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29642,6 +29746,7 @@ MonoBehaviour:
   scaleDuration: 0.3
   moveDuration: 0.3
   isSpecial: 0
+  VFX: {fileID: 0}
 --- !u!212 &1384814455
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -32932,6 +33037,7 @@ GameObject:
   - component: {fileID: 1563896337}
   - component: {fileID: 1563896338}
   - component: {fileID: 1563896339}
+  - component: {fileID: 1563896340}
   m_Layer: 0
   m_Name: Pooling
   m_TagString: Untagged
@@ -33031,6 +33137,20 @@ MonoBehaviour:
   - {fileID: 5137024668221897355, guid: 40a6bfc8ab01db64f9787c4c24c8bc54, type: 3}
   - {fileID: 1058079461576212242, guid: dd9a1f44d768f8d41ab8911d7b57ce08, type: 3}
   potionContainer: {fileID: 158903624}
+--- !u!114 &1563896340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1563896334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 037ceb2dc21efe64eb843b1f8f4d4d16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightningPrefab: {fileID: 5802842592132701727, guid: 9f8a4d029ef95da4b894f02830544779, type: 3}
+  lightningContainer: {fileID: 1239491800}
 --- !u!1 &1574899752
 GameObject:
   m_ObjectHideFlags: 0
@@ -33672,6 +33792,7 @@ MonoBehaviour:
   scaleDuration: 0.3
   moveDuration: 0.3
   isSpecial: 0
+  VFX: {fileID: 0}
 --- !u!114 &1613989610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33842,6 +33963,67 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1001 &1625939641
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5240247729473160588, guid: 4c82cbd72fc618742ad6fe489e7c64b2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5240247729473160588, guid: 4c82cbd72fc618742ad6fe489e7c64b2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5240247729473160588, guid: 4c82cbd72fc618742ad6fe489e7c64b2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5240247729473160588, guid: 4c82cbd72fc618742ad6fe489e7c64b2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5240247729473160588, guid: 4c82cbd72fc618742ad6fe489e7c64b2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5240247729473160588, guid: 4c82cbd72fc618742ad6fe489e7c64b2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5240247729473160588, guid: 4c82cbd72fc618742ad6fe489e7c64b2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5240247729473160588, guid: 4c82cbd72fc618742ad6fe489e7c64b2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5240247729473160588, guid: 4c82cbd72fc618742ad6fe489e7c64b2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5240247729473160588, guid: 4c82cbd72fc618742ad6fe489e7c64b2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5481380951458734573, guid: 4c82cbd72fc618742ad6fe489e7c64b2, type: 3}
+      propertyPath: m_Name
+      value: SwipeVFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 5481380951458734573, guid: 4c82cbd72fc618742ad6fe489e7c64b2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4c82cbd72fc618742ad6fe489e7c64b2, type: 3}
 --- !u!1 &1627567705
 GameObject:
   m_ObjectHideFlags: 0
@@ -34663,6 +34845,7 @@ MonoBehaviour:
   scaleDuration: 0.3
   moveDuration: 0.3
   isSpecial: 0
+  VFX: {fileID: 0}
 --- !u!212 &1644341419
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -35753,6 +35936,7 @@ MonoBehaviour:
   scaleDuration: 0.3
   moveDuration: 0.3
   isSpecial: 0
+  VFX: {fileID: 0}
 --- !u!212 &1711580255
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -37210,6 +37394,7 @@ MonoBehaviour:
   scaleDuration: 0.3
   moveDuration: 0.3
   isSpecial: 0
+  VFX: {fileID: 0}
 --- !u!212 &1797376943
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -39911,6 +40096,7 @@ MonoBehaviour:
   scaleDuration: 0.3
   moveDuration: 0.3
   isSpecial: 0
+  VFX: {fileID: 0}
 --- !u!212 &1944539059
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -40030,6 +40216,7 @@ MonoBehaviour:
   scaleDuration: 0.3
   moveDuration: 0.3
   isSpecial: 0
+  VFX: {fileID: 0}
 --- !u!212 &1949222097
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -40859,6 +41046,7 @@ MonoBehaviour:
   scaleDuration: 0.3
   moveDuration: 0.3
   isSpecial: 0
+  VFX: {fileID: 0}
 --- !u!212 &1979263733
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -41851,6 +42039,7 @@ MonoBehaviour:
   scaleDuration: 0.3
   moveDuration: 0.3
   isSpecial: 0
+  VFX: {fileID: 0}
 --- !u!212 &2023192952
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -43859,8 +44048,10 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 330585546}
+  - {fileID: 1224653441}
   - {fileID: 989105973}
   - {fileID: 1189946028}
   - {fileID: 517025109}
   - {fileID: 1799894517}
   - {fileID: 244058537}
+  - {fileID: 1625939641}

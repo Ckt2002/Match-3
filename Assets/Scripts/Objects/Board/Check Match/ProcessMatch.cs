@@ -24,10 +24,11 @@ public class ProcessMatch
         TileController selectedTile = boardGrid.selectedTile;
         TileController swappedTile = boardGrid.swappedTile;
 
-        bool tilesNull = selectedTile == null && swappedTile == null;
+        bool tilesNull = selectedTile == null || swappedTile == null;
+        bool potionsNull = !tilesNull && (selectedTile.potion == null || swappedTile.potion == null);
         bool bothSpecial = !tilesNull && selectedTile.potion.isSpecial && swappedTile.potion.isSpecial;
-        bool selectedLightning = !tilesNull && selectedTile.potion.specialType == ESpecialType.Lightning;
-        bool swappedLightning = !tilesNull && swappedTile.potion.specialType == ESpecialType.Lightning;
+        bool selectedLightning = !tilesNull && !potionsNull && selectedTile.potion?.specialType == ESpecialType.Lightning;
+        bool swappedLightning = !tilesNull && !potionsNull && swappedTile.potion?.specialType == ESpecialType.Lightning;
         bool oneLightning = selectedLightning || swappedLightning;
 
         if (bothSpecial)

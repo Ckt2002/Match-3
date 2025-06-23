@@ -37,7 +37,7 @@ public class CheckRegenerateBoard
         }
 
         Debug.Log("There are no more possible moves");
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(5f);
 
         for (int w = 0; w < width; w++)
         {

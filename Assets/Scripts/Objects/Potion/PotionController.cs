@@ -10,8 +10,9 @@ public class PotionController : MonoBehaviour, IPotion
     public float scaleDuration = 0.3f;
     public float moveDuration = 0.3f;
     protected Vector3 originalSize;
-
     public bool isSpecial = false;
+
+    [SerializeField] protected GameObject VFX;
 
     protected void Awake()
     {
@@ -20,6 +21,8 @@ public class PotionController : MonoBehaviour, IPotion
 
     public void Hide(Action action = null)
     {
+        if (VFX != null)
+            VFX.GetComponent<ParticleSystem>()?.Play();
         transform.DOScale(Vector3.zero, scaleDuration).OnComplete(() =>
         {
             action?.Invoke();
@@ -47,9 +50,29 @@ public class PotionController : MonoBehaviour, IPotion
         transform.DOMove(targetPos, moveDuration);
     }
 
-    public void ActiveSpecial(TileController tile)
+    public virtual void ActiveSpecial(TileController tile,
+        Vector3? startPos = null, Vector3? endPos = null)
     {
         if (specialType != ESpecialType.None)
+        {
             BoardController.Instance.DestroyPotion(tile, this);
+            if (specialType == ESpecialType.H ||
+                specialType == ESpecialType.V)
+            {
+                Vector3 start = startPos ?? tile.transform.position;
+                Vector3 end = endPos ?? tile.transform.position;
+
+                if (startPos.HasValue && endPos.HasValue)
+                {
+                    var swipeVFX = VFX?.GetComponent<SwipeVFX>();
+                    if (swipeVFX != null)
+                    {
+                        swipeVFX.SetupVFX(start, end);
+                        swipeVFX.RunVFX();
+                    }
+                }
+            }
+            return;
+        }
     }
 }

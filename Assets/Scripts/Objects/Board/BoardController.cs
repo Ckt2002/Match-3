@@ -78,20 +78,10 @@ public class BoardController : MonoBehaviour
 
             case ESpecialType.Lightning:
 
-                if (boardGrid.swappedTile == null)
-                    destroyPotion.DestroyAllByType();
-                else
-                {
-                    PotionController potionTarget = boardGrid.swappedTile.potion;
-                    if (potionTarget != null)
-                        destroyPotion.DestroyAllByType(potionTarget);
+                TileController swappedTile = boardGrid.swappedTile;
+                TileController selectedTile = boardGrid.selectedTile;
 
-                    potionTarget = boardGrid.selectedTile.potion;
-                    if (potionTarget != null)
-                        destroyPotion.DestroyAllByType(potionTarget);
-
-                    tile.HidePotion();
-                }
+                destroyPotion.DestroyAllByType(swappedTile, selectedTile);
                 break;
 
             default:

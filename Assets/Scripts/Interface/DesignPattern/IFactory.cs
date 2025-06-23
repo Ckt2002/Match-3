@@ -3,5 +3,5 @@ using UnityEngine;
 
 public interface IFactory<T>
 {
-    List<T> Create(GameObject prefab, Transform potionContainer, int spawnNumber);
+    List<T> Create(GameObject prefab, Transform container, int spawnNumber);
 }

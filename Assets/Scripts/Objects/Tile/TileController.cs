@@ -129,12 +129,12 @@ public class TileController : MonoBehaviour
             AssignPotion);
     }
 
-    public void ActiveSpecial()
+    public void ActiveSpecial(Vector3? startPos = null, Vector3? endPos = null)
     {
         if (!isDestroying && potion != null)
         {
             isDestroying = true;
-            potion.ActiveSpecial(this);
+            potion.ActiveSpecial(this, startPos, endPos);
         }
     }
 

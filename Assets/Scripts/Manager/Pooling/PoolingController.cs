@@ -9,11 +9,14 @@ public class PoolingController : MonoBehaviour
     public Dictionary<int, List<SpecialController>> specials { get; private set; }
     public TileController[,] tiles { get; private set; }
 
+    public List<LightningVFX> lightnings { get; private set; }
+
     public Vector2Int potionRandomRange;
 
     IPotionPooling potionPooling;
     ISpecialPooling specialPooling;
     ITilePooling tilePooling;
+    ILightningPooling lightningPooling;
 
     private void Awake()
     {
@@ -25,6 +28,7 @@ public class PoolingController : MonoBehaviour
         potionPooling = GetComponent<PotionPooling>();
         tilePooling = GetComponent<TilePooling>();
         specialPooling = GetComponent<SpecialPooling>();
+        lightningPooling = GetComponent<LightningPooling>();
     }
 
     public void AssignPotionRange(Vector2Int potionRandomRange)
@@ -36,6 +40,7 @@ public class PoolingController : MonoBehaviour
     {
         potions = potionPooling.Create(width * height / 2);
         specials = specialPooling.Create(width * height / 2);
+        lightnings = lightningPooling.Create(width * height / 2);
         tiles = tilePooling.Create(width, height);
     }
 
@@ -86,5 +91,20 @@ public class PoolingController : MonoBehaviour
         specials[type].AddRange(newSpecials);
         newSpecials[0].gameObject.SetActive(true);
         return newSpecials[0];
+    }
+
+    public LightningVFX GetLightning()
+    {
+        foreach (var lightning in lightnings)
+            if (!lightning.gameObject.activeInHierarchy)
+            {
+                lightning.gameObject.SetActive(true);
+                return lightning;
+            }
+
+        var news = lightningPooling.Create(1);
+        lightnings.AddRange(news);
+        news[0].gameObject.SetActive(true);
+        return news[0];
     }
 }

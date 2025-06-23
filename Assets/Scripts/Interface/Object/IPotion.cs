@@ -8,5 +8,6 @@ public interface IPotion
     void ResetScale();
     void ChangeScale(Vector3 scale);
     void Move(Vector3 targetPos);
-    void ActiveSpecial(TileController tile);
+    void ActiveSpecial(TileController tile,
+        Vector3? startPos = null, Vector3? endPos = null);
 }
