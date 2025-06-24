@@ -26,7 +26,7 @@ public class MovePotions
             {
                 TileController currentTile = tiles[w, h];
                 if (currentTile.currentObstacle != null)
-                    break;
+                    continue;
 
                 if (currentTile == null || !currentTile.gameObject.activeInHierarchy || currentTile.potion != null)
                     continue;

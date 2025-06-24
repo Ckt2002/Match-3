@@ -44,29 +44,34 @@ public class TileController : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        new TileMouseEnter().MouseEnter(potion, isHiding);
+        if (currentObstacle == null)
+            new TileMouseEnter().MouseEnter(potion, isHiding);
     }
 
     private void OnMouseExit()
     {
-        new TileMouseExit().MouseExit(potion, isHiding);
+        if (currentObstacle == null)
+            new TileMouseExit().MouseExit(potion, isHiding);
     }
 
     private void OnMouseDown()
     {
-        new TileMouseDown().MouseDown(potion, boardController, this, isSelected, isHiding,
+        if (currentObstacle == null)
+            new TileMouseDown().MouseDown(potion, boardController, this, isSelected, isHiding,
             (mousePos) => originalMousePos = mousePos);
     }
 
     private void OnMouseDrag()
     {
-        new TileMouseDrag().MouseDrag(potion, boardController, originalMousePos, isHiding, isDragging,
+        if (currentObstacle == null)
+            new TileMouseDrag().MouseDrag(potion, boardController, originalMousePos, isHiding, isDragging,
             (dragging) => isDragging = dragging);
     }
 
     private void OnMouseUp()
     {
-        new TileMouseUp().MouseUp(potion,
+        if (currentObstacle == null)
+            new TileMouseUp().MouseUp(potion,
             (value) =>
             {
                 isSelected = value;

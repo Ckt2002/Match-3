@@ -39,6 +39,7 @@ public class ObstacleController : MonoBehaviour, IObstacle
     {
         if (obstacleVFX == null)
             obstacleVFX = GetComponentInChildren<ObstacleVFX>();
+        obstacleVFX.transform.position = transform.position;
         obstacleVFX.RunVFX();
         if (currentHealth > 0)
         {
