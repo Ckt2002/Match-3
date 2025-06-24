@@ -77,7 +77,7 @@ public class LevelTool : MonoBehaviour
         Debug.Log($"Level {level} saved to: {filePath}");
 
 #if UNITY_EDITOR
-        UnityEditor.AssetDatabase.Refresh(); // Update Unity's asset database
+        UnityEditor.AssetDatabase.Refresh();
 #endif
     }
 

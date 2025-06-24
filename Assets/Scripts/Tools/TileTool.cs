@@ -5,7 +5,7 @@ public class TileTool : MonoBehaviour
 {
     public ObstacleType obstacleType;
     public GameObject[] potionsPrefab;
-    public EPotion potionType;
+    public int potionIndex;
     public Transform potionParent;
 
     [ContextMenu("Assign obstacle")]
@@ -31,9 +31,8 @@ public class TileTool : MonoBehaviour
     public void AssignPotion()
     {
         potionParent = GameObject.Find("Potions").transform;
-        GameObject go = Instantiate(potionsPrefab[(int)potionType], potionParent);
-        go.transform.position = transform.position;
-        GetComponent<TileController>().AssignObstacleTool((int)obstacleType);
+        GameObject go = Instantiate(potionsPrefab[potionIndex], potionParent);
+        GetComponent<TileController>().AssignPotionTool(go.GetComponent<PotionController>());
     }
 }
 #endif

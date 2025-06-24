@@ -85,7 +85,9 @@ public class FindSpecialBlock
                     middleTile = boardGrid.selectedTile;
                 else if (row.Contains(boardGrid.swappedTile))
                     middleTile = boardGrid.swappedTile;
-                specials[middleTile] = ESpecialType.H;
+
+                int potionIndex = UnityEngine.Random.Range(1, 3);
+                specials[middleTile] = (ESpecialType)potionIndex;
             }
         }
 
@@ -103,7 +105,9 @@ public class FindSpecialBlock
                     middleTile = boardGrid.selectedTile;
                 else if (col.Contains(boardGrid.swappedTile))
                     middleTile = boardGrid.swappedTile;
-                specials[middleTile] = ESpecialType.V;
+
+                int potionIndex = UnityEngine.Random.Range(1, 3);
+                specials[middleTile] = (ESpecialType)potionIndex;
             }
         }
         #endregion

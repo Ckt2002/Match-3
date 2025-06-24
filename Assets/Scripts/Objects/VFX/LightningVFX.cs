@@ -14,14 +14,13 @@ public class LightningVFX : MonoBehaviour, IVFX
     int currentInd = 0;
     float process = 0f;
 
-    private void Start()
+    private void Awake()
     {
         material = lineRenderer.materials[0];
     }
 
     public void SetupVFX(Vector3 toPos)
     {
-        Debug.Log(toPos);
         lights[0].transform.position = transform.position;
         lights[1].transform.position = toPos;
         lineRenderer.SetPosition(0, transform.position);
@@ -45,14 +44,15 @@ public class LightningVFX : MonoBehaviour, IVFX
         float delay = 1f / fps;
         while (process < endVFXTime)
         {
-            process += Time.deltaTime;
+            process += Time.deltaTime * 10;
+            //Debug.Log(process);
             material.SetTexture("_MainTex", lightningTextures[currentInd]);
             currentInd = (currentInd + 1) % lightningTextures.Length;
             yield return new WaitForSeconds(delay);
         }
         particle0.Stop();
         particle1.Stop();
-        yield return null;
+        yield return new WaitForSeconds(0.001f);
         HideVFX();
     }
 

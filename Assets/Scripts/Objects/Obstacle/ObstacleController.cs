@@ -7,6 +7,7 @@ public class ObstacleController : MonoBehaviour, IObstacle
     [SerializeField] int maxHealth;
     [SerializeField] Sprite[] sprites;
     SpriteRenderer spriteRenderer;
+    ObstacleVFX obstacleVFX;
     int currentHealth;
     Vector3 originalScale;
     Action destroyCurrent;
@@ -14,6 +15,7 @@ public class ObstacleController : MonoBehaviour, IObstacle
     private void Awake()
     {
         originalScale = transform.localScale;
+        obstacleVFX = GetComponentInChildren<ObstacleVFX>();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
@@ -35,6 +37,9 @@ public class ObstacleController : MonoBehaviour, IObstacle
 
     public void TakeDamage()
     {
+        if (obstacleVFX == null)
+            obstacleVFX = GetComponentInChildren<ObstacleVFX>();
+        obstacleVFX.RunVFX();
         if (currentHealth > 0)
         {
             currentHealth -= 1;

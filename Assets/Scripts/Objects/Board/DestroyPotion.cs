@@ -3,16 +3,17 @@
 public class DestroyPotion
 {
     DestroyObstacle destroyObstacle;
-    PoolingController poolingController;
+    DestroyPotionByLightning destroyPotionByLightning;
+    MonoBehaviour coroutineLauncher;
     TileController[,] tiles;
     int width, height;
 
-    public DestroyPotion(BoardGrid boardGrid)
+    public DestroyPotion(BoardGrid boardGrid, MonoBehaviour coroutineLauncher)
     {
         this.tiles = boardGrid.tiles;
         this.width = boardGrid.width;
         this.height = boardGrid.height;
-
+        this.coroutineLauncher = coroutineLauncher;
         destroyObstacle = new DestroyObstacle(tiles, width, height);
     }
 
@@ -78,7 +79,7 @@ public class DestroyPotion
             DestroyOne(w, i, vStartPos, vEndPos);
     }
 
-    public void DestroyGrid3(int w, int h)
+    public void DestroyByBomb(int w, int h)
     {
         int startW = w - 1;
         int startH = h - 1;
@@ -94,63 +95,74 @@ public class DestroyPotion
             }
     }
 
-    public void DestroyAllByType(TileController swappedTile, TileController selectedTile)
+    public void DestroyAllByLightning(TileController swappedTile,
+        TileController selectedTile,
+        TileController currentTile)
     {
-        if (poolingController == null)
-            poolingController = PoolingController.Instance;
+        if (swappedTile == null || selectedTile == null || currentTile == null)
+            return;
+
+        if (destroyPotionByLightning == null)
+        {
+            destroyPotionByLightning = new DestroyPotionByLightning(tiles, width, height);
+            destroyPotionByLightning.destroyOneAct += DestroyOne;
+        }
 
         PotionController swappedPotion = swappedTile?.potion;
         PotionController selectedPotion = selectedTile?.potion;
 
-        if (swappedTile == null || swappedTile.potion.specialType == ESpecialType.Lightning)
-        {
-            int potionIndex = Random.Range(0, 4);
-            EPotion potionType = (EPotion)potionIndex;
-            for (int j = 0; j < height; j++)
-                for (int i = 0; i < width; i++)
-                {
-                    if (tiles[i, j] == null)
-                        continue;
-                    PotionController currentPotion = tiles[i, j].potion;
-                    if (currentPotion != null)
-                        if (currentPotion.potionType == potionType &&
-                            currentPotion.specialType == ESpecialType.None)
-                        {
-                            DestroyOne(i, j);
-                            LightningVFX lightning = poolingController.GetLightning();
-                            if (swappedTile != null)
-                                lightning.transform.position = swappedTile.transform.position;
-                            else
-                                lightning.transform.position = selectedTile.transform.position;
+        bool liSwap = currentTile == swappedTile || currentTile == selectedTile;
+        bool liAndNor = swappedPotion.specialType == ESpecialType.None ||
+            selectedPotion.specialType == ESpecialType.None;
+        bool liAndSwipeH = swappedPotion.specialType == ESpecialType.H ||
+            selectedPotion.specialType == ESpecialType.H;
+        bool liAndSwipeV = swappedPotion.specialType == ESpecialType.V ||
+            selectedPotion.specialType == ESpecialType.V;
+        bool liAndBomb = swappedPotion.specialType == ESpecialType.Explosion ||
+            selectedPotion.specialType == ESpecialType.Explosion;
+        bool liAndLi = swappedPotion.specialType == ESpecialType.Lightning &&
+            selectedPotion.specialType == ESpecialType.Lightning;
 
-                            lightning.SetupVFX(tiles[i, j].transform.localPosition);
-                            continue;
-                        }
-                }
+        // Check if lightning is not swapped or selected potion (means it has been actived by orther specials)
+        if (!liSwap || liAndBomb)
+        {
+            // destroy random
+            destroyPotionByLightning.ComboRandom(currentTile);
+            currentTile.HidePotion();
+            return;
         }
-        else
-        {
-            for (int j = 0; j < height; j++)
-                for (int i = 0; i < width; i++)
-                {
-                    if (tiles[i, j] == null)
-                        continue;
-                    PotionController currentPotion = tiles[i, j].potion;
-                    if (currentPotion != null)
-                        if (currentPotion.potionType == swappedPotion.potionType &&
-                            currentPotion.specialType == swappedPotion.specialType)
-                        {
-                            DestroyOne(i, j);
-                            LightningVFX lightning = poolingController.GetLightning();
-                            if (swappedTile != null)
-                                lightning.transform.position = swappedTile.transform.position;
-                            else
-                                lightning.transform.position = selectedTile.transform.position;
 
-                            lightning.SetupVFX(tiles[i, j].transform.localPosition);
-                            continue;
-                        }
-                }
+        // If current lightning swapped with any potion
+        // Check if swapped with normal
+        if (liAndNor)
+        {
+            // call li and nor combo
+            PotionController normalPotion = swappedPotion;
+            if (selectedPotion.specialType == ESpecialType.None)
+                normalPotion = selectedPotion;
+            destroyPotionByLightning.ComboLiNor(currentTile, normalPotion);
+            currentTile.HidePotion();
+            return;
+        }
+
+        // Check if swapped with swipe special
+        if (liAndSwipeH || liAndSwipeV)
+        {
+            // call li and swipe combo
+            EPotion potionType = swappedPotion.potionType;
+            if (potionType == EPotion.None)
+                potionType = selectedPotion.potionType;
+
+            coroutineLauncher.StartCoroutine(
+                destroyPotionByLightning.ComboLiSw(currentTile, potionType));
+            return;
+        }
+
+        // Check if both are lightning
+        if (liAndLi)
+        {
+            destroyPotionByLightning.ComboLiLi();
+            return;
         }
     }
 }

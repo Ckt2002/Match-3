@@ -45,10 +45,11 @@ public class BoardSwap
 
     private TileController GetSwappedTile(Vector2Int swappedPotionIndex)
     {
+        bool validTile = tiles[swappedPotionIndex.x, swappedPotionIndex.y].gameObject.activeInHierarchy;
         bool widthValid = swappedPotionIndex.x >= 0 && swappedPotionIndex.x < gridWidth;
         bool heightValid = swappedPotionIndex.y >= 0 && swappedPotionIndex.y < gridHeight;
 
-        if (widthValid && heightValid)
+        if (validTile && widthValid && heightValid)
             return tiles[swappedPotionIndex.x, swappedPotionIndex.y];
         else
             return null;

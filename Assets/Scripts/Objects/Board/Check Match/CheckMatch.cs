@@ -35,13 +35,14 @@ public class CheckMatch
     {
         TileController selectedTile = boardGrid.selectedTile;
         TileController swappedTile = boardGrid.swappedTile;
+        bool tileNull = selectedTile == null || swappedTile == null;
+        if (tileNull)
+            yield break;
 
         PotionController selectedPotion = boardGrid.selectedTile.potion;
         PotionController swappedPotion = boardGrid.swappedTile.potion;
-
-        bool tileNull = selectedTile == null || swappedTile == null;
         bool potionNull = selectedPotion == null || swappedPotion == null;
-        if (tileNull || potionNull)
+        if (potionNull)
             yield break;
 
         yield return Check();

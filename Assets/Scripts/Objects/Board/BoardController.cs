@@ -51,7 +51,7 @@ public class BoardController : MonoBehaviour
     public void DestroyPotion(TileController tile, PotionController potion)
     {
         if (destroyPotion == null)
-            destroyPotion = new DestroyPotion(boardGrid);
+            destroyPotion = new DestroyPotion(boardGrid, this);
 
         int w = tile.tileIndex.x;
         int h = tile.tileIndex.y;
@@ -65,7 +65,7 @@ public class BoardController : MonoBehaviour
                 break;
 
             case ESpecialType.Explosion:
-                destroyPotion.DestroyGrid3(w, h);
+                destroyPotion.DestroyByBomb(w, h);
                 break;
 
             case ESpecialType.H:
@@ -80,8 +80,7 @@ public class BoardController : MonoBehaviour
 
                 TileController swappedTile = boardGrid.swappedTile;
                 TileController selectedTile = boardGrid.selectedTile;
-
-                destroyPotion.DestroyAllByType(swappedTile, selectedTile);
+                destroyPotion.DestroyAllByLightning(swappedTile, selectedTile, tile);
                 break;
 
             default:

@@ -156,11 +156,7 @@ public class TileController : MonoBehaviour
         }
         this.potion = potion;
         if (this.potion != null)
-        {
             potion.transform.localPosition = transform.localPosition;
-            potion.ResetScale();
-            isDestroying = false;
-        }
     }
 
     public void ClearObstacleTool()
