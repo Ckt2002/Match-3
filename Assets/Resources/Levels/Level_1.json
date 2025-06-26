@@ -5,6 +5,21 @@
         "x": 1,
         "y": 6
     },
+    "PotionRequires": [
+        {
+            "potionType": 2,
+            "number": 5
+        },
+        {
+            "potionType": 3,
+            "number": 5
+        },
+        {
+            "potionType": 5,
+            "number": 5
+        }
+    ],
+    "ObstacleRequires": [],
     "Tiles": [
         {
             "W": 0,

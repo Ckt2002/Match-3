@@ -8,6 +8,8 @@ public class LevelData
     public int Level;
     public int Score;
     public Vector2Int PotionRange;
+    public List<PotionRequire> PotionRequires;
+    public List<ObstacleRequire> ObstacleRequires;
     public List<TileData> Tiles;
 
     public LevelData(int level, Vector2Int potionRange, int score = 0)
@@ -16,5 +18,7 @@ public class LevelData
         this.Score = score;
         this.PotionRange = potionRange;
         Tiles = new();
+        PotionRequires = new();
+        ObstacleRequires = new();
     }
 }

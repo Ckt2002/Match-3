@@ -50,7 +50,7 @@ public class MovePotions
             if (moved)
                 yield return spawnFunc(w, w + 1);
         }
-        yield return new WaitForSeconds(0.0002f);
+        yield return new WaitForSeconds(0.02f);
 
         yield return checkRegenerateFunc();
     }

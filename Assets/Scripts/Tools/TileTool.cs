@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class TileTool : MonoBehaviour
 {
-    public ObstacleType obstacleType;
+    public EObstacle obstacleType;
     public GameObject[] potionsPrefab;
     public int potionIndex;
     public Transform potionParent;

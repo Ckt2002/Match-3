@@ -12,10 +12,11 @@ public class LevelTool : MonoBehaviour
     public float spacing;
     public int level;
     public int maxLevel;
+    public List<PotionRequire> potionRequires;
+    public List<ObstacleRequire> obstacleRequires;
     public TileController[,] tiles;
     public Transform tilesParent;
     public Transform potionsParent;
-
     public Vector2Int randomPotionRange;
     public GameObject[] potionsPrefab;
 
@@ -63,6 +64,9 @@ public class LevelTool : MonoBehaviour
                 }
             }
         }
+
+        levelData.PotionRequires = potionRequires;
+        levelData.ObstacleRequires = obstacleRequires;
 
         string json = JsonUtility.ToJson(levelData, true);
         string folderPath = Path.Combine(Application.dataPath, "Resources/Levels");

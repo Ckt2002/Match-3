@@ -49,6 +49,9 @@ public class ArrangerController : MonoBehaviour
             tiles[w, h].AssignPotion(PoolingController.Instance.GetPotion(tile.PotionIndex));
         }
 
+        List<PotionRequire> potionRequires = level.PotionRequires;
+        List<ObstacleRequire> obstacleRequires = level.ObstacleRequires;
+        MissionController.Instance.SetupMission(potionRequires, obstacleRequires);
         boardGrid.InitTile(tiles, width, height);
         CheckMatch checkMatch = BoardController.Instance.boardCheckMatch;
         StartCoroutine(checkMatch.CheckAllMatches());

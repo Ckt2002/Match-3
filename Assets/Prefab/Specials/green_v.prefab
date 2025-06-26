@@ -102,13 +102,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0444e630ef8876e4284c21632636ac78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseScore: 40
+  VFX: {fileID: 5069532568043766092}
   potionType: 2
   specialType: 2
   zoomsize: {x: 1, y: 1, z: 1}
   scaleDuration: 0.3
   moveDuration: 0.3
   isSpecial: 1
-  VFX: {fileID: 5069532568043766092}
 --- !u!114 &3315855986330712684
 MonoBehaviour:
   m_ObjectHideFlags: 0
