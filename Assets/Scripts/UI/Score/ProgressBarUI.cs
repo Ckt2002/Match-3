@@ -22,7 +22,6 @@ public class ProgressBarUI : MonoBehaviour
 
     public void OnUpdateScore(int currentScore, int maxScore)
     {
-        Debug.Log((float)currentScore / maxScore);
         progressBar.DOValue((float)currentScore / maxScore, duration)
             .OnComplete(() =>
             {

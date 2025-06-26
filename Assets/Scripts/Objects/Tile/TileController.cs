@@ -136,9 +136,9 @@ public class TileController : MonoBehaviour
 
     public void ActiveSpecial(Vector3? startPos = null, Vector3? endPos = null)
     {
-        ScoreCalculator.Instance.UpdateScore(potion.BaseScore);
         if (!isDestroying && potion != null)
         {
+            ScoreCalculator.Instance.UpdateScore(potion.BaseScore);
             isDestroying = true;
             potion.ActiveSpecial(this, startPos, endPos);
         }

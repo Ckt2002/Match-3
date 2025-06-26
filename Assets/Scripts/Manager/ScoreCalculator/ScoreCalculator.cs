@@ -13,7 +13,10 @@ public class ScoreCalculator : MonoBehaviour
             Instance = this;
         else
             Destroy(gameObject);
+    }
 
+    private void Start()
+    {
         scoreUI = ScoreUI.Instance;
     }
 

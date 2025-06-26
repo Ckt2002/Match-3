@@ -23,6 +23,5 @@ public class ExplodeVFX : MonoBehaviour, IVFX
         {
             yield return new WaitForSeconds(0.02f);
         }
-        yield return null;
     }
 }

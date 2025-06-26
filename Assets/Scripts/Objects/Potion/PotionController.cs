@@ -15,11 +15,19 @@ public class PotionController : MonoBehaviour, IPotion
     public float moveDuration = 0.3f;
     public bool isSpecial = false;
 
+    protected MissionController missionController;
+    protected ConvertPosController converController;
     protected Vector3 originalSize;
 
     protected void Awake()
     {
         originalSize = transform.localScale;
+    }
+
+    private void Start()
+    {
+        converController = ConvertPosController.Instance;
+        missionController = MissionController.Instance;
     }
 
     public void Hide(Action action = null)
@@ -56,6 +64,9 @@ public class PotionController : MonoBehaviour, IPotion
     public virtual void ActiveSpecial(TileController tile,
         Vector3? startPos = null, Vector3? endPos = null)
     {
+
+        missionController.UpdateMission(converController.Transfer(transform.position), potionType);
+
         if (specialType != ESpecialType.None)
         {
             BoardController.Instance.DestroyPotion(tile, this);

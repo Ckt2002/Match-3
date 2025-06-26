@@ -32,12 +32,12 @@ public class CheckRegenerateBoard
         yield return possibleMoves.HasPossibleMoves(tiles, width, height, (a) => checkPossibleMoves = a);
 
         if (checkPossibleMoves)
-        {
             yield break;
-        }
 
-        Debug.Log("There are no more possible moves");
-        yield return new WaitForSeconds(5f);
+        UIController.Instance.OpenUI(ECanvasGroup.StaticGr, EUI.Notification);
+        yield return new WaitForSeconds(2f);
+        UIController.Instance.CloseUI(ECanvasGroup.StaticGr, EUI.Notification);
+        yield return new WaitForSeconds(0.5f);
 
         for (int w = 0; w < width; w++)
         {

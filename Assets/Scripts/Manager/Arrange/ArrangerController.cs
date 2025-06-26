@@ -51,7 +51,7 @@ public class ArrangerController : MonoBehaviour
 
         List<PotionRequire> potionRequires = level.PotionRequires;
         List<ObstacleRequire> obstacleRequires = level.ObstacleRequires;
-        MissionController.Instance.SetupMission(potionRequires, obstacleRequires);
+        MissionUI.Instance.SetupMission(potionRequires, obstacleRequires);
         boardGrid.InitTile(tiles, width, height);
         CheckMatch checkMatch = BoardController.Instance.boardCheckMatch;
         StartCoroutine(checkMatch.CheckAllMatches());
